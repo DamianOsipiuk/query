@@ -141,19 +141,6 @@ export function parseMutationArgs<
   return { ...arg1 } as TOptions
 }
 
-export function parseFilterArgs<
-  TFilters extends QueryFilters,
-  TOptions = unknown,
->(
-  arg1?: QueryKey | TFilters,
-  arg2?: TFilters | TOptions,
-  arg3?: TOptions,
-): [TFilters, TOptions | undefined] {
-  return (
-    isQueryKey(arg1) ? [{ ...arg2, queryKey: arg1 }, arg3] : [arg1 || {}, arg2]
-  ) as [TFilters, TOptions]
-}
-
 export function parseMutationFilterArgs<
   TFilters extends MutationFilters,
   TOptions = unknown,

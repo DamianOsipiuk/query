@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { QueryKey, MutationKey } from '@tanstack/query-core'
 import { isRef, unref } from 'vue-demi'
-import type { UnwrapRef } from 'vue-demi'
+import type { MaybeRefDeep } from './types'
 
 export const VUE_QUERY_CLIENT = 'VUE_QUERY_CLIENT'
 
@@ -53,12 +53,12 @@ export function cloneDeep<T>(
   return value
 }
 
-export function cloneDeepUnref<T>(obj: T): UnwrapRef<T> {
+export function cloneDeepUnref<T>(obj: MaybeRefDeep<T>): T {
   return cloneDeep(obj, (val) => {
     if (isRef(val)) {
       return cloneDeepUnref(unref(val))
     }
-  }) as UnwrapRef<typeof obj>
+  }) as T
 }
 
 function isPlainObject(value: unknown): value is Object {

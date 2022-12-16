@@ -47,14 +47,11 @@ export function parseFilterArgs<
   TFilters extends SolidQueryFilters,
   TOptions = unknown,
 >(
-  arg1?: SolidQueryKey | TFilters,
-  arg2?: TFilters | TOptions,
-  arg3?: TOptions,
+  arg1?: TFilters,
+  arg2?: TOptions,
 ): [ParseFilterArgs<TFilters>, TOptions | undefined] {
   return (
-    isQueryKey(arg1)
-      ? [{ ...arg2, queryKey: arg1() }, arg3]
-      : [{ ...arg1, queryKey: arg1?.queryKey?.() }, arg2]
+    [{ ...arg1, queryKey: arg1?.queryKey?.() }, arg2]
   ) as [ParseFilterArgs<TFilters>, TOptions]
 }
 

@@ -17,7 +17,6 @@ export {
   isError,
   isServer,
   parseQueryArgs,
-  parseFilterArgs,
   parseMutationFilterArgs,
   parseMutationArgs,
 } from './utils'

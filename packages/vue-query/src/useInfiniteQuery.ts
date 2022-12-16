@@ -1,8 +1,6 @@
 import { InfiniteQueryObserver } from '@tanstack/query-core'
-import type { UnwrapRef } from 'vue-demi'
 import type {
   QueryObserver,
-  QueryFunction,
   QueryKey,
   InfiniteQueryObserverResult,
 } from '@tanstack/query-core'
@@ -59,51 +57,16 @@ export function useInfiniteQuery<
 ): UseInfiniteQueryReturnType<TData, TError>
 
 export function useInfiniteQuery<
-  TQueryFnData = unknown,
-  TError = unknown,
-  TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey,
->(
-  queryKey: TQueryKey,
-  options?: Omit<
-    UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-    'queryKey'
-  >,
-): UseInfiniteQueryReturnType<TData, TError>
-
-export function useInfiniteQuery<
-  TQueryFnData = unknown,
-  TError = unknown,
-  TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey,
->(
-  queryKey: TQueryKey,
-  queryFn: QueryFunction<TQueryFnData, UnwrapRef<TQueryKey>>,
-  options?: Omit<
-    UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-    'queryKey' | 'queryFn'
-  >,
-): UseInfiniteQueryReturnType<TData, TError>
-
-export function useInfiniteQuery<
   TQueryFnData,
   TError,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
 >(
-  arg1:
-    | TQueryKey
-    | UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-  arg2?:
-    | QueryFunction<TQueryFnData, UnwrapRef<TQueryKey>>
-    | UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-  arg3?: UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+  arg1: UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
 ): UseInfiniteQueryReturnType<TData, TError> {
   const result = useBaseQuery(
     InfiniteQueryObserver as typeof QueryObserver,
     arg1,
-    arg2,
-    arg3,
   ) as InfiniteQueryReturnType<TData, TError>
   return {
     ...result,

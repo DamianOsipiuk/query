@@ -1,5 +1,5 @@
 import type { QueryFilters } from './utils'
-import { hashQueryKeyByOptions, matchQuery, parseFilterArgs } from './utils'
+import { hashQueryKeyByOptions, matchQuery } from './utils'
 import type { Action, QueryState } from './query'
 import { Query } from './query'
 import type { QueryKey, QueryOptions } from './types'
@@ -161,11 +161,8 @@ export class QueryCache extends Subscribable<QueryCacheListener> {
   }
 
   find<TQueryFnData = unknown, TError = unknown, TData = TQueryFnData>(
-    arg1: QueryKey,
-    arg2?: QueryFilters,
+    filters: QueryFilters,
   ): Query<TQueryFnData, TError, TData> | undefined {
-    const [filters] = parseFilterArgs(arg1, arg2)
-
     if (typeof filters.exact === 'undefined') {
       filters.exact = true
     }
@@ -173,11 +170,7 @@ export class QueryCache extends Subscribable<QueryCacheListener> {
     return this.queries.find((query) => matchQuery(filters, query))
   }
 
-  findAll(queryKey?: QueryKey, filters?: QueryFilters): Query[]
-  findAll(filters?: QueryFilters): Query[]
-  findAll(arg1?: QueryKey | QueryFilters, arg2?: QueryFilters): Query[]
-  findAll(arg1?: QueryKey | QueryFilters, arg2?: QueryFilters): Query[] {
-    const [filters] = parseFilterArgs(arg1, arg2)
+  findAll(filters: QueryFilters = {}): Query[] {
     return Object.keys(filters).length > 0
       ? this.queries.filter((query) => matchQuery(filters, query))
       : this.queries
